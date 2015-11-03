@@ -1,0 +1,111 @@
+#Welcome, below is my code. Have fun exploring!
+
+import random
+
+###functions --------------------------------------------
+
+#function to create random number and play game
+def guessingGame():
+	randomNumber = random.randint(1, 100)
+	guessedNumbers = []
+	originalGuess = raw_input("A random, magical number between 1 and 100 has been "
+							"chosen. Please make a guess.\n")
+	guess = continueGuessing(guessedNumbers, originalGuess, randomNumber)
+	numOfGuesses = str(len(guessedNumbers) + 1)
+	if guess == randomNumber:
+		print "You guessed correctly! Congratulations! It took you " + numOfGuesses + " guesses to get the correct answer."
+	return guess
+
+#function to check user's guess and tell them too high, too low, etc.
+def continueGuessing(array, guess, number):
+	while guess != number:
+		if leave(guess):
+			break
+		if guess.isdigit():
+			guess = int(guess)
+			if guess >= 1 and guess <= 100:
+				if leave(guess):
+					break
+				if guess in array:
+					guess = raw_input("You've already guessed that number. Please make a new guess.\n")
+				else:
+					if guess < number:
+						array = addGuess(array, guess)
+						guess = raw_input("Your guess was too low. Please guess again.\n")
+					elif guess > number:
+						array = addGuess(array, guess)
+						guess = raw_input("Your guess was too high. Please guess again.\n")
+			else:
+				if leave(guess):
+					break
+				guess = raw_input("Please choose a number between 1 and 100.\n")
+		else:
+			if leave(guess):
+				break
+			guess = raw_input("Please enter a number between 1 and 100.\n")
+	guessedNumbers = array
+	return guess
+
+#function to add new guess to list
+def addGuess(array, newGuess):
+	array.append(newGuess)
+	return array
+
+#function to end game
+def leave(guess):
+	guess = str(guess)
+	if guess.isalpha():
+		guess = guess.lower()
+		if guess == "leave":
+			print "You have chosen to leave the game. Farewell young guesser!"
+			return True
+
+#function to offer user to play again
+def continuePlaying ():
+	continuePlay = raw_input(name + ", would you like to try again?\n")
+	continuePlay = continuePlay.upper()
+	if continuePlay == "YES":
+		guessingGame()
+		continuePlaying()
+	elif continuePlay == "NO":
+		print "You're welcome to come back any time. Hope you have a brilliant day!"
+	else:
+		print "Strange, I don't think you entered 'Yes' or 'No'."
+		continuePlaying()
+
+
+
+###Let's Start Playing! Beginning text of program.-------------------------------------
+
+name = raw_input("Hello, may I ask your name?\n")
+play = raw_input("Well, " + name + ", would you like to play a guessing game?\n"
+				"Please type 'Yes' or 'No'. (You may leave at any time by typing "
+				"'leave'.)\n")
+play = play.upper()
+if play == "YES":
+	if guessingGame() != "leave":
+		continuePlaying()
+elif play == "NO":
+	print "You're welcome to come back any time. Hope you have a brilliant day!"
+elif leave(play):
+	pass
+else:
+	print "That's strange, I don't think you entered 'Yes' or 'No'."
+	continuePlaying()
+
+
+
+
+
+''' Welcome to my program! I *hope* I've thought of most of the loop holes for this guessing 
+game, and closed them up. What I had a hard time figuring out, was what to do if the user 
+entered a string instead of a number for their guess. Originally I was using input() instead 
+of raw_input(), since it differentiated for me wether or not what was entered was a string
+or an integer. When the input was a number, the program ran fine, but whenever a string was 
+entered, it broke. Now it works! I also had some difficulty figuring out where in the function 
+guessingGame() to place the addGuess() function (to add new guesses to the array(guessedNumbers)),
+to keep track of the guesses and only include new, valid guesses between 1 and 100. Finally 
+figured it out though, and now it works beautifully and counts the guesses correctly! 
+Just for fun, I added the options for a user to choose to continue playing if they want, or to be 
+able to leave the game at any time. 
+For now, this is my finished piece. Hope you enjoy guessing! '''
